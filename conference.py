@@ -686,7 +686,7 @@ class ConferenceApi(remote.Service):
 
 		
 	@endpoints.method(SESS_GET_BY_SPEAKER, SessionForms, 
-		path='session/{speaker}', 
+		path='session/speaker/{speaker}', 
 		http_method='GET', 
 		name='getSessionsBySpeaker')
 	def getSessionsBySpeaker(self, request):
@@ -696,7 +696,7 @@ class ConferenceApi(remote.Service):
 
 	
 	@endpoints.method(SESS_GET_BY_TYPE_REQUEST, SessionForms,
-		path='conference/{websafeConferenceKey}/session/{typeOfSession}',
+		path='conference/{websafeConferenceKey}/session/session_type/{typeOfSession}',
 		http_method='GET', 
 		name='getConferenceSessionsByType')
 	def getConferenceSessionsByType(self, request):
@@ -718,7 +718,7 @@ class ConferenceApi(remote.Service):
 
 
 	@endpoints.method(SESS_GET_BY_DURATION, SessionForms, 
-		path='session/{duration}', 
+		path='session/max_duration/{duration}', 
 		http_method='GET', 
 		name='getSessionsByMaxDuration')
 	def getSessionsByMaxDuration(self, request):

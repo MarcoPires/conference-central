@@ -42,14 +42,18 @@ Design Choices
 ------------
 
 ##### Task 1: Add Sessions to a Conference
-* Session is defined as a pure entity with Conference entity as ancestor, with the properties: 
-    * Session name 
-    * highlights 
-    * Speaker
-    * duration 
-    * typeOfSession 
-    * date 
-    * start time (in 24 hour notation so it can be ordered). 
+* I chose to draw a single entity "sessions" with a property "speaker", I think this is the most direct and simple approach. 
+Thus it is possible to query with great simplicity and quickness, moreover it reduces the amount of data that is saved. 
+On the other hand there is a penalty in the application of scalability, but in the future if we need to add more information on the "speaker" is possible to create a new entity and made a new iteration on the application.
+As for the design of models and their data types, properties "SessionName", "highlights" and "Speaker" are Strings because their content is text and its not need specific queries, in anorther turn the "typeOfSession" was defined has EnumField to be able to make some validation and allow more selective queries, the "date" is naturally a Date type so as to enable selective queries by date and the 'startTime' is a Time type so also allow more selective queries.
+Session is defined as a pure entity with Conference entity as ancestor, with the properties: 
+    * SessionName (String)
+    * highlights (String)
+    * Speaker (String) 
+    * duration (Integer)
+    * typeOfSession (String)
+    * date (Date)
+    * start time (Time) - in 24 hour notation so it can be ordered. 
 * Session also contains the following Endpoints methods 
     * **getConferenceSessions(websafeConferenceKey)** - Given a conference, return all sessions
     * **getConferenceSessionsByType(websafeConferenceKey, typeOfSession)** - Given a conference, return all sessions of a specified type (eg lecture, keynote, workshop)
@@ -66,7 +70,8 @@ Design Choices
 * I've implemented 2 new queries
     * **getSessionsByMaxDuration(duration)** - Given a Duration, return all sessions under that duration, across all conferences
     * **getSessionsWithMissingInformation()** - Return all sessions that have void fields
-* Regard to the query problem, the issue is that only one inequality filter per query is supported. My attempt at resolution is on next endpoit:
+* Regard to the query problem, the issue is that only one inequality filter per query is supported. My attempt to solve the problem, based on the principle of making a single inequality filter and after obtain the result we can itinerant manually and filter the second inequality, ie, the sessions before the desired time.
+My attempt at resolution is on next endpoit:
     * **getSessionsProblem()** - Return all sessions that starts before 7 pm and they are not workshops
     
 
